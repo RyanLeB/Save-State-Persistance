@@ -5,16 +5,12 @@ using UnityEngine;
 using UnityEngine.Playables;
 
 
-public class GameData
-{
-    public int currentLevel;
-    public int playerExp;
-}
+
 public class GameManager : MonoBehaviour
 {
    
     
-    public static GameManager Instance;
+    public static GameManager Instance { get; private set; }
 
     private int currentLevel;
     private int playerExp;
@@ -73,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        GameData data = new GameData
+        GameData data = new GameData(currentLevel, playerExp)
         {
             currentLevel = currentLevel,
             playerExp = playerExp
