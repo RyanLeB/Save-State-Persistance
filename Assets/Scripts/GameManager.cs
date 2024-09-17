@@ -25,12 +25,13 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
         }
         else
         {
             Destroy(gameObject);
         }
-        saveFilePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+        
     
     }
 
@@ -51,33 +52,10 @@ public class GameManager : MonoBehaviour
 
     public void LoadGame()
     {
-        if (File.Exists(saveFilePath))
-        {
-            string json = File.ReadAllText(saveFilePath);
-            GameData data = JsonUtility.FromJson<GameData>(json);
-            currentLevel = data.currentLevel;
-            playerExp = data.playerExp;
-            Debug.Log("Game Loaded");
-        }
-        else
-        {
-            currentLevel = 1;
-            playerExp = 0;
-            Debug.Log("No save data found, starting new game");
-        }
+   
+        
     }
 
-    public void SaveGame()
-    {
-        GameData data = new GameData(currentLevel, playerExp)
-        {
-            currentLevel = currentLevel,
-            playerExp = playerExp
-        };
-
-        string json = JsonUtility.ToJson(data);
-        File.WriteAllText(saveFilePath, json);
-        Debug.Log("Game Saved");
-    }
+   
 
 }
