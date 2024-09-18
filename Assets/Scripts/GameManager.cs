@@ -10,10 +10,10 @@ using UnityEngine.Playables;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
-   
-    
 
-    public int currentLevel;
+    public static int instanceCount = 0;
+
+    public float levelsCleared;
     public float playerExp;
     public float playerHealth;
     public float playerMana;
@@ -36,8 +36,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-    
+
+        instanceCount++;
+    }
+    private void OnDestroy()
+    {
+        instanceCount--; 
     }
 
     // Update is called once per frame
@@ -70,22 +74,25 @@ public class GameManager : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(10, 10, 100, 20), "Level: " + currentLevel);
-        GUI.Label(new Rect(10, 30, 100, 20), "Exp: " + playerExp);
-        GUI.Label(new Rect(10, 50, 100, 20), "Health: " + playerHealth);
-        GUI.Label(new Rect(10, 70, 100, 20), "Mana: " + playerMana);
-        GUI.Label(new Rect(10, 90, 100, 20), "Stamina: " + playerStamina);
+        GUI.Label(new Rect(150, 10, 100, 20), "Level: " + levelsCleared);
+        GUI.Label(new Rect(150, 30, 100, 20), "Exp: " + playerExp);
+        GUI.Label(new Rect(150, 50, 100, 20), "Health: " + playerHealth);
+        GUI.Label(new Rect(150, 70, 100, 20), "Mana: " + playerMana);
+        GUI.Label(new Rect(150, 90, 100, 20), "Stamina: " + playerStamina);
+        GUI.Label(new Rect(150, 300, 150, 20), "Instances: " + instanceCount);
     }
 
 
-    // Saves the game data
-    public void Save()
+
+
+// Saves the game data
+public void Save()
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Open(Application.persistentDataPath + "/gameData.save", FileMode.Open);
+        FileStream file = File.Create(Application.persistentDataPath + "/PlayerData.save");
 
         PlayerData data = new PlayerData();
-        data.currentLevel = currentLevel;
+        data.levelsCleared = levelsCleared;
         data.playerExp = playerExp;
         data.playerHealth = playerHealth;
         data.playerMana = playerMana;
@@ -98,14 +105,14 @@ public class GameManager : MonoBehaviour
     // Loads the game data
     public void Load()
     {
-        if(File.Exists(Application.persistentDataPath + "/gameData.save"))
+        if(File.Exists(Application.persistentDataPath + "/PlayerData.save"))
         {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/gameData.save", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/PlayerData.save", FileMode.Open);
             PlayerData data = (PlayerData)bf.Deserialize(file);
             file.Close();
 
-            currentLevel = data.currentLevel;
+            levelsCleared = data.levelsCleared;
             playerExp = data.playerExp;
             playerHealth = data.playerHealth;
             playerMana = data.playerMana;
@@ -119,7 +126,7 @@ public class GameManager : MonoBehaviour
 [System.Serializable]
 class PlayerData
 {
-    public int currentLevel;
+    public float levelsCleared;
     public float playerExp;
     public float playerHealth;
     public float playerMana;
