@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     public static int instanceCount = 0;
 
-    public float levelsCleared;
+    public float playerLevel;
     public float playerExp;
     public float playerHealth;
     public float playerMana;
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(150, 10, 100, 20), "Level: " + levelsCleared);
+        GUI.Label(new Rect(150, 10, 100, 20), "Level: " + playerLevel);
         GUI.Label(new Rect(150, 30, 100, 20), "Exp: " + playerExp);
         GUI.Label(new Rect(150, 50, 100, 20), "Health: " + playerHealth);
         GUI.Label(new Rect(150, 70, 100, 20), "Mana: " + playerMana);
@@ -92,7 +92,7 @@ public void Save()
         FileStream file = File.Create(Application.persistentDataPath + "/PlayerData.save");
 
         PlayerData data = new PlayerData();
-        data.levelsCleared = levelsCleared;
+        data.levelsCleared = playerLevel;
         data.playerExp = playerExp;
         data.playerHealth = playerHealth;
         data.playerMana = playerMana;
@@ -112,7 +112,7 @@ public void Save()
             PlayerData data = (PlayerData)bf.Deserialize(file);
             file.Close();
 
-            levelsCleared = data.levelsCleared;
+            playerLevel = data.levelsCleared;
             playerExp = data.playerExp;
             playerHealth = data.playerHealth;
             playerMana = data.playerMana;

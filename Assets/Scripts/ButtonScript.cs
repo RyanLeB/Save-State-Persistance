@@ -8,11 +8,11 @@ public class ButtonScript : MonoBehaviour
     {
         if (GUI.Button(new Rect(10, 20, 100, 30), "Player Level Up"))
         {
-            GameManager.instance.levelsCleared += 1;
+            GameManager.instance.playerLevel += 1;
         }
         if (GUI.Button(new Rect(10, 60, 100, 30), "Player Level Down"))
         {
-            GameManager.instance.levelsCleared -= 1;
+            GameManager.instance.playerLevel -= 1;
         }
 
         if (GUI.Button(new Rect(10, 100, 100, 30), "Health Up"))
